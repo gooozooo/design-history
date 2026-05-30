@@ -18,279 +18,108 @@
       height: 100%;
       overflow: hidden;
       font-family: "Malgun Gothic", "Noto Sans KR", sans-serif;
-      background: #090909;
-      cursor: none;
+      background: #111;
+      color: #fff;
     }
 
-    .medieval-page {
+    .page {
       position: relative;
       width: 100vw;
       height: 100vh;
       overflow: hidden;
-      background: #090909;
+      background: #111;
     }
 
-    /* 중세 고딕 배경 */
-    .base-bg {
+    .back-link {
+      position: absolute;
+      top: 24px;
+      left: 28px;
+      z-index: 30;
+      text-decoration: none;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.42);
+      backdrop-filter: blur(8px);
+    }
+
+    .title-box {
+      position: absolute;
+      top: 46px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 25;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .title-box .eyebrow {
+      margin: 0 0 8px;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      font-weight: 700;
+      opacity: 0.8;
+    }
+
+    .title-box h1 {
+      margin: 0;
+      font-size: 50px;
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .title-box p {
+      margin: 12px 0 0;
+      font-size: 15px;
+      opacity: 0.82;
+    }
+
+    .stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .base-img,
+    .modern-img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: 1;
-      filter:
-        brightness(0.68)
-        blur(1.8px)
-        saturate(0.92);
+      object-position: center;
       user-select: none;
-      -webkit-user-drag: none;
       pointer-events: none;
-      transform: scale(1.02);
     }
 
-    /* 현대 고딕 전체 희미 레이어 */
-    .modern-faint {
-      position: absolute;
-      inset: 0;
+    .base-img {
+      z-index: 1;
+      filter: brightness(0.78);
+    }
+
+    .modern-img {
       z-index: 2;
-      background-image: url("2-2.png");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.12;
-      mix-blend-mode: screen;
-      filter:
-        blur(4px)
-        saturate(0.75)
-        brightness(0.82);
-      pointer-events: none;
-      transform: scale(1.01);
+      clip-path: circle(190px at 50% 50%);
+      filter: brightness(1.04);
     }
 
-    /* 돋보기 안 현대 고딕 */
-    .hidden-layer {
-      position: absolute;
-      inset: 0;
-      z-index: 4;
-      background-image: url("2-2.png");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      clip-path: circle(200px at 50% 50%);
-      pointer-events: none;
-      filter:
-        brightness(1.05)
-        saturate(1.1)
-        contrast(1.03);
-    }
-
-    /* 어두운 공간감 */
-    .dark-overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 5;
-      background:
-        radial-gradient(
-          circle at center,
-          rgba(0,0,0,0.08),
-          rgba(0,0,0,0.38)
-        );
-      pointer-events: none;
-    }
-
-    /* 스테인드글라스 빛 */
-    .light-stain {
-      position: absolute;
-      width: 38vw;
-      height: 38vw;
-      max-width: 720px;
-      max-height: 720px;
-      border-radius: 50%;
-      z-index: 6;
-      pointer-events: none;
-      mix-blend-mode: screen;
-      opacity: 0.16;
-      filter: blur(26px);
-
-      background:
-        radial-gradient(
-          circle at center,
-          rgba(165, 104, 255, 0.55),
-          rgba(255, 92, 92, 0.22),
-          rgba(255, 219, 92, 0.12),
-          rgba(255,255,255,0)
-        );
-
-      animation: stainMove 12s ease-in-out infinite alternate;
-    }
-
-    .light-stain.one {
-      top: -8%;
-      left: -5%;
-    }
-
-    .light-stain.two {
-      bottom: -12%;
-      right: -6%;
-      animation-duration: 18s;
-    }
-
-    @keyframes stainMove {
-      0% {
-        transform: translate(0,0) scale(1);
-      }
-
-      100% {
-        transform: translate(20px,-20px) scale(1.08);
-      }
-    }
-
-    /* 먼지 입자 */
-    .dust-layer {
-      position: absolute;
-      inset: 0;
-      z-index: 7;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .dust {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.16);
-      animation: floatDust linear infinite;
-      filter: blur(0.6px);
-    }
-
-    @keyframes floatDust {
-      0% {
-        transform:
-          translateY(0)
-          translateX(0);
-        opacity: 0;
-      }
-
-      10% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: 0.8;
-      }
-
-      100% {
-        transform:
-          translateY(-120px)
-          translateX(24px);
-        opacity: 0;
-      }
-    }
-
-    /* 돋보기 */
-    .lens {
+    .magnifier {
       position: absolute;
       left: 50%;
       top: 50%;
-      z-index: 20;
       width: 400px;
       height: 400px;
-      border-radius: 50%;
       transform: translate(-50%, -50%);
-      pointer-events: none;
-
-      border:
-        3px solid rgba(255,255,255,0.92);
-
-      background:
-        radial-gradient(
-          circle at 32% 28%,
-          rgba(255,255,255,0.18),
-          rgba(255,255,255,0.02)
-        );
-
+      z-index: 5;
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
       box-shadow:
-        0 0 0 9999px rgba(0,0,0,0.12),
-        0 20px 60px rgba(0,0,0,0.55),
-        inset 0 0 40px rgba(255,255,255,0.12),
-        inset 0 0 10px rgba(255,255,255,0.2);
-
-      backdrop-filter:
-        blur(0.5px)
-        saturate(1.2);
-
-      overflow: hidden;
-    }
-
-    /* 돋보기 빛 반사 */
-    .lens::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(255,255,255,0.28),
-          rgba(255,255,255,0.02)
-        );
-
-      opacity: 0.55;
+        0 0 0 9999px rgba(0, 0, 0, 0.28),
+        0 18px 50px rgba(0, 0, 0, 0.35);
       pointer-events: none;
-    }
-
-    /* 외곽 glow */
-    .lens::after {
-      content: "";
-      position: absolute;
-      inset: -6px;
-      border-radius: 50%;
-
-      border:
-        1px solid rgba(255,255,255,0.22);
-
-      opacity: 0.55;
-      filter: blur(2px);
-      pointer-events: none;
-    }
-
-    .back-button {
-      position: absolute;
-      top: 24px;
-      left: 28px;
-      z-index: 40;
-      color: rgba(255,255,255,0.92);
-      text-decoration: none;
-      font-size: 15px;
-      text-shadow:
-        0 2px 8px rgba(0,0,0,0.7);
-      cursor: pointer;
-    }
-
-    .page-title {
-      position: absolute;
-      top: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 40;
-      text-align: center;
-      color: white;
-      text-shadow:
-        0 3px 12px rgba(0,0,0,0.7);
-      pointer-events: none;
-    }
-
-    .page-title p {
-      margin: 0 0 6px;
-      font-size: 12px;
-      letter-spacing: 0.22em;
-      opacity: 0.88;
-    }
-
-    .page-title h1 {
-      margin: 0;
-      font-size: 38px;
-      font-weight: 700;
     }
 
     .hint {
@@ -298,296 +127,149 @@
       left: 50%;
       bottom: 28px;
       transform: translateX(-50%);
-      z-index: 40;
-      color: rgba(255,255,255,0.9);
+      z-index: 20;
       font-size: 14px;
-      text-shadow:
-        0 2px 8px rgba(0,0,0,0.7);
-      pointer-events: none;
-      letter-spacing: 0.04em;
+      color: rgba(255, 255, 255, 0.82);
+      background: rgba(0, 0, 0, 0.38);
+      padding: 9px 14px;
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+      white-space: nowrap;
     }
 
-    /* 모바일 가로 */
-    @media (max-width: 900px) and (orientation: landscape) {
-
-      .page-title {
-        top: 12px;
+    @media (max-width: 950px) and (orientation: landscape) {
+      .page {
+        height: 100dvh;
       }
 
-      .page-title h1 {
-        font-size: 24px;
+      .back-link {
+        top: 10px;
+        left: 12px;
+        font-size: 11px;
+        padding: 7px 10px;
       }
 
-      .page-title p {
+      .title-box {
+        top: 10px;
+        width: 70vw;
+      }
+
+      .title-box .eyebrow {
+        margin-bottom: 3px;
+        font-size: 9px;
+      }
+
+      .title-box h1 {
+        font-size: 26px;
+      }
+
+      .title-box p {
+        margin-top: 5px;
         font-size: 10px;
       }
 
-      .back-button {
-        top: 14px;
-        left: 16px;
-        font-size: 12px;
+      .base-img,
+      .modern-img {
+        object-position: center center;
       }
 
-      .lens {
-        width: 240px;
-        height: 240px;
+      .modern-img {
+        clip-path: circle(92px at 50% 55%);
       }
 
-      .hidden-layer {
-        clip-path: circle(120px at 50% 50%);
+      .magnifier {
+        width: 190px;
+        height: 190px;
+        top: 55%;
+        border-width: 1.5px;
       }
 
       .hint {
-        bottom: 12px;
-        font-size: 11px;
+        bottom: 10px;
+        font-size: 10px;
+        padding: 6px 10px;
       }
     }
 
-    /* 세로 안내 */
-    @media (max-width: 900px) and (orientation: portrait) {
+    @media (max-width: 740px) and (orientation: landscape) {
+      .title-box p {
+        display: none;
+      }
 
-      .medieval-page::after {
-        content: "휴대폰을 가로로 돌려서 감상해 주세요.";
-        position: absolute;
-        inset: 0;
-        z-index: 300;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
-        text-align: center;
-        background: #e9e9e9;
-        color: rgba(0,0,0,0.74);
-        font-size: 18px;
-        line-height: 1.7;
+      .modern-img {
+        clip-path: circle(75px at 50% 56%);
+      }
+
+      .magnifier {
+        width: 155px;
+        height: 155px;
+        top: 56%;
+      }
+
+      .hint {
+        display: none;
       }
     }
-/* 모바일 가로: 16:9 고정 화면을 축소해서 보여주기 */
-@media (max-width:900px) and (orientation:landscape){
-  html,
-  body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#e9e9e9;
-  }
-
-  .ancient-page,
-  .medieval-page,
-  .room-page,
-  .industrial-page,
-  .war-page,
-  .modern-page{
-    width:1280px !important;
-    height:720px !important;
-    position:absolute !important;
-    left:50% !important;
-    top:50% !important;
-    transform:translate(-50%,-50%) scale(.54) !important;
-    transform-origin:center center !important;
-    overflow:hidden !important;
-  }
-}
-
-@media (min-width:800px) and (max-width:950px) and (orientation:landscape){
-  .ancient-page,
-  .medieval-page,
-  .room-page,
-  .industrial-page,
-  .war-page,
-  .modern-page{
-    transform:translate(-50%,-50%) scale(.58) !important;
-  }
-}
-
-@media (max-width:700px) and (orientation:landscape){
-  .ancient-page,
-  .medieval-page,
-  .room-page,
-  .industrial-page,
-  .war-page,
-  .modern-page{
-    transform:translate(-50%,-50%) scale(.48) !important;
-  }
-}
   </style>
 </head>
 
 <body>
+  <main class="page">
+    <a href="index.html" class="back-link">← 카드 목록</a>
 
-  <main class="medieval-page" id="page">
-
-    <!-- 중세 고딕 -->
-    <img
-      class="base-bg"
-      src="2-1.png"
-      alt="중세 고딕 무드보드"
-    />
-
-    <!-- 희미한 현대 고딕 -->
-    <div class="modern-faint"></div>
-
-    <!-- 돋보기 안 현대 고딕 -->
-    <div class="hidden-layer" id="hiddenLayer"></div>
-
-    <!-- 빛 -->
-    <div class="light-stain one"></div>
-    <div class="light-stain two"></div>
-
-    <!-- 먼지 -->
-    <div class="dust-layer" id="dustLayer"></div>
-
-    <!-- 어두운 오버레이 -->
-    <div class="dark-overlay"></div>
-
-    <!-- 뒤로 -->
-    <a href="index.html" class="back-button">
-      ← 카드 목록
-    </a>
-
-    <!-- 제목 -->
-    <header class="page-title">
-      <p>MEDIEVAL GOTHIC × MODERN GOTHIC</p>
+    <section class="title-box">
+      <p class="eyebrow">MEDIEVAL DESIGN</p>
       <h1>중세</h1>
-    </header>
+      <p>고딕 건축의 수직성과 현대적 재해석</p>
+    </section>
 
-    <!-- 돋보기 -->
-    <div class="lens" id="lens"></div>
+    <section class="stage" id="stage">
+      <img src="2-1.png" alt="중세 고딕 배경" class="base-img" />
+      <img src="2-2.png" alt="현대 고딕 배경" class="modern-img" id="modernImg" />
+      <div class="magnifier" id="magnifier"></div>
+    </section>
 
-    <!-- 힌트 -->
-    <p class="hint">
-      돋보기로 현대 고딕의 흔적을 발견해 보세요.
-    </p>
-
+    <div class="hint">화면을 움직이면 렌즈 안에서 현대 고딕 디자인이 드러납니다.</div>
   </main>
 
   <script>
+    const stage = document.getElementById("stage");
+    const modernImg = document.getElementById("modernImg");
+    const magnifier = document.getElementById("magnifier");
 
-    const page = document.getElementById("page");
-    const hiddenLayer = document.getElementById("hiddenLayer");
-    const lens = document.getElementById("lens");
-    const dustLayer = document.getElementById("dustLayer");
+    function moveLens(clientX, clientY) {
+      const rect = stage.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
 
-    let lensRadius = 200;
+      magnifier.style.left = `${x}px`;
+      magnifier.style.top = `${y}px`;
 
-    /* 먼지 생성 */
-    function createDust() {
+      const radius = window.matchMedia("(max-width: 740px) and (orientation: landscape)").matches
+        ? 75
+        : window.matchMedia("(max-width: 950px) and (orientation: landscape)").matches
+          ? 92
+          : 190;
 
-      for (let i = 0; i < 48; i++) {
-
-        const dust = document.createElement("span");
-        dust.className = "dust";
-
-        const size = Math.random() * 4 + 1;
-
-        dust.style.width = size + "px";
-        dust.style.height = size + "px";
-
-        dust.style.left = Math.random() * 100 + "%";
-        dust.style.top = Math.random() * 100 + "%";
-
-        dust.style.animationDuration =
-          (Math.random() * 12 + 10) + "s";
-
-        dust.style.animationDelay =
-          (-Math.random() * 20) + "s";
-
-        dust.style.opacity =
-          Math.random() * 0.5 + 0.2;
-
-        dustLayer.appendChild(dust);
-      }
+      modernImg.style.clipPath = `circle(${radius}px at ${x}px ${y}px)`;
     }
 
-    createDust();
-
-    /* 렌즈 이동 */
-    function updateLens(x, y) {
-
-      lens.style.left = x + "px";
-      lens.style.top = y + "px";
-
-      hiddenLayer.style.clipPath =
-        `circle(${lensRadius}px at ${x}px ${y}px)`;
-
-      hiddenLayer.style.webkitClipPath =
-        `circle(${lensRadius}px at ${x}px ${y}px)`;
-    }
-
-    /* 마우스/터치 위치 */
-    function getPoint(e) {
-
-      if (e.touches && e.touches.length > 0) {
-
-        return {
-          x: e.touches[0].clientX,
-          y: e.touches[0].clientY
-        };
-      }
-
-      return {
-        x: e.clientX,
-        y: e.clientY
-      };
-    }
-
-    function handleMove(e) {
-
-      const point = getPoint(e);
-
-      updateLens(point.x, point.y);
-    }
-
-    page.addEventListener("mousemove", handleMove);
-
-    page.addEventListener(
-      "touchmove",
-      (e) => {
-        e.preventDefault();
-        handleMove(e);
-      },
-      { passive: false }
-    );
-
-    page.addEventListener(
-      "touchstart",
-      (e) => {
-
-        const point = getPoint(e);
-
-        updateLens(point.x, point.y);
-      },
-      { passive: false }
-    );
-
-    /* 리사이즈 */
-    window.addEventListener("resize", () => {
-
-      lensRadius =
-        window.innerWidth <= 900 &&
-        window.innerHeight < window.innerWidth
-          ? 120
-          : 200;
-
-      updateLens(
-        window.innerWidth / 2,
-        window.innerHeight / 2
-      );
+    stage.addEventListener("mousemove", (e) => {
+      moveLens(e.clientX, e.clientY);
     });
 
-    /* 초기 위치 */
-    lensRadius =
-      window.innerWidth <= 900 &&
-      window.innerHeight < window.innerWidth
-        ? 120
-        : 200;
+    stage.addEventListener("touchmove", (e) => {
+      const touch = e.touches[0];
+      moveLens(touch.clientX, touch.clientY);
+    }, { passive: true });
 
-    updateLens(
-      window.innerWidth / 2,
-      window.innerHeight / 2
-    );
+    window.addEventListener("load", () => {
+      moveLens(window.innerWidth / 2, window.innerHeight * 0.55);
+    });
 
+    window.addEventListener("resize", () => {
+      moveLens(window.innerWidth / 2, window.innerHeight * 0.55);
+    });
   </script>
-
 </body>
 </html>

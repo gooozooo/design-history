@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>고대 디자인</title>
 
 <style>
@@ -26,6 +26,7 @@ html,body{
   height:100vh;
   overflow:hidden;
   cursor:pointer;
+  background:#000;
 }
 
 .bg-img{
@@ -34,6 +35,7 @@ html,body{
   width:100%;
   height:100%;
   object-fit:cover;
+  object-position:center center;
   z-index:1;
   user-select:none;
   -webkit-user-drag:none;
@@ -74,6 +76,7 @@ html,body{
   color:white;
   pointer-events:none;
   text-shadow:0 2px 8px rgba(0,0,0,.85);
+  white-space:nowrap;
 }
 
 .page-title p{
@@ -84,6 +87,7 @@ html,body{
 
 .page-title h1{
   font-size:38px;
+  line-height:1.1;
 }
 
 .period{
@@ -99,45 +103,110 @@ html,body{
   color:white;
   font-size:14px;
   text-shadow:0 2px 8px rgba(0,0,0,.85);
+  white-space:nowrap;
 }
 
-@media (max-width:900px) and (orientation:landscape){
+/* 모바일 가로 */
+@media (max-width:950px) and (orientation:landscape){
+  html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+  }
+
+  .ancient-page{
+    width:100vw;
+    height:100vh;
+    height:100dvh;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .bg-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center center;
+  }
+
   .back-button{
-    top:14px;
-    left:16px;
-    font-size:12px;
+    top:calc(env(safe-area-inset-top) + 8px);
+    left:calc(env(safe-area-inset-left) + 12px);
+    font-size:11px;
+    z-index:120;
   }
 
   .bg-toggle{
-    top:44px;
-    left:16px;
-    width:100px;
-    height:100px;
+    top:calc(env(safe-area-inset-top) + 42px);
+    left:calc(env(safe-area-inset-left) + 14px);
+    width:82px;
+    height:82px;
+    z-index:110;
   }
 
   .page-title{
-    top:12px;
-  }
-
-  .page-title h1{
-    font-size:24px;
+    top:calc(env(safe-area-inset-top) + 6px);
+    width:70vw;
   }
 
   .page-title p{
-    font-size:10px;
+    margin-bottom:2px;
+    font-size:8px;
+    letter-spacing:.18em;
+  }
+
+  .page-title h1{
+    font-size:20px;
+    line-height:1;
   }
 
   .period{
-    font-size:11px;
+    margin-top:3px;
+    font-size:9px;
   }
 
   .hint{
-    right:14px;
-    bottom:12px;
-    font-size:11px;
+    right:calc(env(safe-area-inset-right) + 12px);
+    bottom:calc(env(safe-area-inset-bottom) + 10px);
+    max-width:70vw;
+    font-size:10px;
+    line-height:1.4;
+    white-space:normal;
+    text-align:right;
   }
 }
 
+/* 더 낮은 모바일 가로 */
+@media (max-width:740px) and (orientation:landscape){
+  .page-title{
+    top:calc(env(safe-area-inset-top) + 5px);
+  }
+
+  .page-title h1{
+    font-size:18px;
+  }
+
+  .page-title p{
+    font-size:7px;
+  }
+
+  .period{
+    font-size:8px;
+  }
+
+  .bg-toggle{
+    width:70px;
+    height:70px;
+    top:calc(env(safe-area-inset-top) + 38px);
+  }
+
+  .hint{
+    font-size:9px;
+    max-width:66vw;
+  }
+}
+
+/* 모바일 세로 */
 @media (max-width:900px) and (orientation:portrait){
   .ancient-page::after{
     content:"휴대폰을 가로로 돌려서 감상해 주세요.";
@@ -152,54 +221,6 @@ html,body{
     padding:24px;
     font-size:18px;
     color:#333;
-  }
-}
-/* 모바일 가로: 16:9 고정 화면을 축소해서 보여주기 */
-@media (max-width:900px) and (orientation:landscape){
-  html,
-  body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#e9e9e9;
-  }
-
-  .ancient-page,
-  .medieval-page,
-  .room-page,
-  .industrial-page,
-  .war-page,
-  .modern-page{
-    width:1280px !important;
-    height:720px !important;
-    position:absolute !important;
-    left:50% !important;
-    top:50% !important;
-    transform:translate(-50%,-50%) scale(.54) !important;
-    transform-origin:center center !important;
-    overflow:hidden !important;
-  }
-}
-
-@media (min-width:800px) and (max-width:950px) and (orientation:landscape){
-  .ancient-page,
-  .medieval-page,
-  .room-page,
-  .industrial-page,
-  .war-page,
-  .modern-page{
-    transform:translate(-50%,-50%) scale(.58) !important;
-  }
-}
-
-@media (max-width:700px) and (orientation:landscape){
-  .ancient-page,
-  .medieval-page,
-  .room-page,
-  .industrial-page,
-  .war-page,
-  .modern-page{
-    transform:translate(-50%,-50%) scale(.48) !important;
   }
 }
 </style>
@@ -238,13 +259,6 @@ const bgImg = document.getElementById("bgImg");
 const bgToggle = document.getElementById("bgToggle");
 const backButton = document.getElementById("backButton");
 
-/*
-1-1.png = 검은 배경 + 컬러 건물
-1-2.png = 흰 배경 + 컬러 건물
-1-3.png = 흰 배경 + 검은 건물
-1-4.png = 검은 배경 + 흰 건물
-*/
-
 let currentState = "1-1";
 
 function updateImage(){
@@ -257,7 +271,6 @@ function updateImage(){
   }
 }
 
-/* 원 클릭: 배경색만 변경 + 원 색도 배경 반대색으로 변경 */
 bgToggle.addEventListener("click",(e)=>{
   e.stopPropagation();
 
@@ -277,7 +290,6 @@ bgToggle.addEventListener("click",(e)=>{
   updateImage();
 });
 
-/* 배경 클릭: 건물색만 변경 */
 page.addEventListener("click",()=>{
   if(currentState === "1-1"){
     currentState = "1-4";

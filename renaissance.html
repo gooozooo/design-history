@@ -52,6 +52,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center center;
       z-index: 1;
     }
 
@@ -59,12 +60,11 @@
       position: absolute;
       inset: 0;
       z-index: 2;
-      background:
-        linear-gradient(
-          to bottom,
-          rgba(0,0,0,0.18),
-          rgba(0,0,0,0.34)
-        );
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.38)
+      );
       pointer-events: none;
     }
 
@@ -73,11 +73,14 @@
       top: 24px;
       left: 28px;
       z-index: 30;
-      color: rgba(255,255,255,0.92);
+      color: rgba(255, 255, 255, 0.95);
       text-decoration: none;
       font-size: 15px;
-      text-shadow:
-        0 2px 8px rgba(0,0,0,0.55);
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.32);
+      backdrop-filter: blur(6px);
     }
 
     .room-title {
@@ -88,8 +91,7 @@
       z-index: 30;
       text-align: center;
       color: white;
-      text-shadow:
-        0 3px 12px rgba(0,0,0,0.55);
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.55);
       pointer-events: none;
     }
 
@@ -103,16 +105,17 @@
     .room-title h1 {
       margin: 0;
       font-size: 36px;
+      line-height: 1;
     }
 
     .column-stage {
       position: absolute;
       left: 50%;
-      bottom: 2vh;
+      bottom: 0;
       transform: translateX(-50%);
       z-index: 10;
       width: min(30vw, 390px);
-      height: 86vh;
+      height: 82vh;
       display: flex;
       align-items: flex-end;
       justify-content: center;
@@ -123,78 +126,44 @@
       max-height: 100%;
       object-fit: contain;
       cursor: pointer;
-      filter:
-        drop-shadow(0 20px 28px rgba(0,0,0,0.45));
-      transition:
-        transform 0.25s ease,
-        filter 0.25s ease;
+      filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.45));
+      transition: transform 0.25s ease, filter 0.25s ease;
       user-select: none;
       -webkit-user-drag: none;
     }
 
     .column-img:hover {
-      transform:
-        translateY(-6px)
-        scale(1.02);
-
-      filter:
-        drop-shadow(0 28px 36px rgba(0,0,0,0.55));
+      transform: translateY(-6px) scale(1.02);
+      filter: drop-shadow(0 28px 36px rgba(0, 0, 0, 0.55));
     }
 
-    /* 화살표 */
     .arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       z-index: 25;
-
       width: 72px;
       height: 72px;
-
-      border:
-        2px solid rgba(255,255,255,0.75);
-
+      border: 2px solid rgba(255, 255, 255, 0.75);
       border-radius: 50%;
-
-      background:
-        rgba(0,0,0,0.22);
-
+      background: rgba(0, 0, 0, 0.22);
       color: white;
       font-size: 44px;
       line-height: 1;
-
       cursor: pointer;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       backdrop-filter: blur(5px);
-
-      box-shadow:
-        0 0 0 rgba(255,255,255,0);
-
-      transition:
-        background 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        border-color 0.2s ease;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .arrow:hover {
-      background:
-        rgba(255,255,255,0.16);
-
-      border-color:
-        rgba(255,255,255,0.95);
-
+      background: rgba(255, 255, 255, 0.16);
       box-shadow:
-        0 0 18px rgba(255,255,255,0.52),
-        0 0 38px rgba(255,255,255,0.26);
-
-      transform:
-        translateY(-50%)
-        scale(1.08);
+        0 0 18px rgba(255, 255, 255, 0.52),
+        0 0 38px rgba(255, 255, 255, 0.26);
+      transform: translateY(-50%) scale(1.08);
     }
 
     .arrow.left {
@@ -205,36 +174,25 @@
       right: 32px;
     }
 
-    /* 안내 문구 */
     .hint {
       position: absolute;
       right: 28px;
       bottom: 24px;
       z-index: 30;
-
-      color:
-        rgba(255,255,255,0.9);
-
+      color: rgba(255, 255, 255, 0.9);
       font-size: 14px;
-
-      text-shadow:
-        0 2px 8px rgba(0,0,0,0.7);
-
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
       letter-spacing: 0.02em;
     }
 
-    /* 팝업 */
     .popup {
       position: absolute;
       inset: 0;
       z-index: 100;
-
       display: none;
       align-items: center;
       justify-content: center;
-
-      background:
-        rgba(0,0,0,0.35);
+      background: rgba(0, 0, 0, 0.35);
     }
 
     .popup.show {
@@ -243,36 +201,20 @@
 
     .popup-box {
       position: relative;
-
-      width:
-        min(520px, calc(100vw - 44px));
-
+      width: min(520px, calc(100vw - 44px));
       padding: 30px 28px;
-
       border-radius: 22px;
-
-      background:
-        rgba(255,255,255,0.92);
-
-      color:
-        rgba(0,0,0,0.82);
-
-      box-shadow:
-        0 24px 70px rgba(0,0,0,0.35);
-
-      backdrop-filter:
-        blur(12px);
+      background: rgba(255, 255, 255, 0.92);
+      color: rgba(0, 0, 0, 0.82);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(12px);
     }
 
     .popup-box small {
       display: block;
       margin-bottom: 8px;
-
       letter-spacing: 0.14em;
-
-      color:
-        rgba(0,0,0,0.45);
-
+      color: rgba(0, 0, 0, 0.45);
       font-weight: 700;
     }
 
@@ -291,247 +233,204 @@
       position: absolute;
       top: 12px;
       right: 16px;
-
       border: 0;
       background: transparent;
-
       font-size: 30px;
       cursor: pointer;
-
-      color:
-        rgba(0,0,0,0.7);
+      color: rgba(0, 0, 0, 0.7);
     }
 
     /* 모바일 가로 */
-    @media (max-width: 900px) and (orientation: landscape) {
+    @media (max-width: 950px) and (orientation: landscape) {
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .room-page {
+        width: 100vw;
+        height: 100dvh;
+      }
+
+      .room-bg {
+        object-fit: cover;
+        object-position: center center;
+      }
 
       .back-button {
-        top: 14px;
-        left: 16px;
-        font-size: 12px;
+        top: 10px;
+        left: 12px;
+        font-size: 11px;
+        padding: 6px 9px;
       }
 
       .room-title {
-        top: 12px;
-      }
-
-      .room-title h1 {
-        font-size: 24px;
+        top: 8px;
       }
 
       .room-title p {
-        font-size: 10px;
+        margin-bottom: 3px;
+        font-size: 8px;
+      }
+
+      .room-title h1 {
+        font-size: 22px;
       }
 
       .column-stage {
-        width: min(24vw, 210px);
-        height: 80vh;
-        bottom: 1vh;
+        width: 18vw;
+        max-width: 120px;
+        height: 54vh;
+        bottom: 0;
       }
 
       .arrow {
-        width: 48px;
-        height: 48px;
-        font-size: 30px;
+        width: 42px;
+        height: 42px;
+        font-size: 28px;
+        border-width: 1.5px;
       }
 
       .arrow.left {
-        left: 14px;
+        left: 12px;
       }
 
       .arrow.right {
-        right: 14px;
-      }
-
-      .popup-box {
-        width: min(460px, calc(100vw - 32px));
-        padding: 22px 20px;
-      }
-
-      .popup-box h2 {
-        font-size: 24px;
-      }
-
-      .popup-box p {
-        font-size: 13px;
-        line-height: 1.65;
+        right: 12px;
       }
 
       .hint {
+        right: 12px;
+        bottom: 8px;
+        font-size: 10px;
+      }
+
+      .popup-box {
+        width: min(420px, calc(100vw - 120px));
+        padding: 18px 20px;
+        border-radius: 16px;
+      }
+
+      .popup-box small {
+        margin-bottom: 5px;
+        font-size: 10px;
+      }
+
+      .popup-box h2 {
+        margin-bottom: 8px;
+        font-size: 22px;
+      }
+
+      .popup-box p {
+        font-size: 12px;
+        line-height: 1.55;
+      }
+
+      .close-btn {
+        top: 8px;
+        right: 12px;
+        font-size: 24px;
+      }
+    }
+
+    /* 더 낮은 모바일 가로 */
+    @media (max-width: 740px) and (orientation: landscape) {
+      .room-title h1 {
+        font-size: 19px;
+      }
+
+      .room-title p {
+        font-size: 7px;
+      }
+
+      .column-stage {
+        width: 16vw;
+        max-width: 95px;
+        height: 50vh;
+      }
+
+      .arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 24px;
+      }
+
+      .hint {
+        display: none;
+      }
+
+      .popup-box {
+        width: min(370px, calc(100vw - 95px));
+        padding: 14px 16px;
+      }
+
+      .popup-box h2 {
+        font-size: 19px;
+      }
+
+      .popup-box p {
         font-size: 11px;
-        right: 14px;
-        bottom: 12px;
+        line-height: 1.45;
       }
     }
 
     /* 모바일 세로 */
     @media (max-width: 900px) and (orientation: portrait) {
-
       .room-page::after {
-        content:
-          "휴대폰을 가로로 돌려서 감상해 주세요.";
-
+        content: "휴대폰을 가로로 돌려서 감상해 주세요.";
         position: absolute;
         inset: 0;
-
         z-index: 200;
-
         display: flex;
         align-items: center;
         justify-content: center;
-
         padding: 24px;
-
         text-align: center;
-
-        background:
-          #e9e9e9;
-
-        color:
-          rgba(0,0,0,0.74);
-
+        background: #e9e9e9;
+        color: rgba(0, 0, 0, 0.74);
         font-size: 18px;
         line-height: 1.7;
       }
     }
-/* 모바일 가로: 16:9 고정 화면을 축소해서 보여주기 */
-@media (max-width:900px) and (orientation:landscape){
-  html,
-  body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#e9e9e9;
-  }
-
-  .ancient-page,
-  .medieval-page,
-  .room-page,
-  .industrial-page,
-  .war-page,
-  .modern-page{
-    width:1280px !important;
-    height:720px !important;
-    position:absolute !important;
-    left:50% !important;
-    top:50% !important;
-    transform:translate(-50%,-50%) scale(.54) !important;
-    transform-origin:center center !important;
-    overflow:hidden !important;
-  }
-}
-
-@media (min-width:800px) and (max-width:950px) and (orientation:landscape){
-  .ancient-page,
-  .medieval-page,
-  .room-page,
-  .industrial-page,
-  .war-page,
-  .modern-page{
-    transform:translate(-50%,-50%) scale(.58) !important;
-  }
-}
-
-@media (max-width:700px) and (orientation:landscape){
-  .ancient-page,
-  .medieval-page,
-  .room-page,
-  .industrial-page,
-  .war-page,
-  .modern-page{
-    transform:translate(-50%,-50%) scale(.48) !important;
-  }
-}
   </style>
 </head>
 
 <body>
-
   <main class="room-page">
-
     <section class="scene" id="scene">
-
-      <img
-        class="room-bg"
-        id="roomBg"
-        src="3-2.png"
-        alt="방 배경 이미지"
-      />
-
+      <img class="room-bg" id="roomBg" src="3-2.png" alt="방 배경 이미지" />
       <div class="dark-overlay"></div>
 
       <section class="column-stage">
-        <img
-          class="column-img"
-          id="columnImg"
-          src="3-1.png"
-          alt="기둥 이미지"
-        />
+        <img class="column-img" id="columnImg" src="3-1.png" alt="기둥 이미지" />
       </section>
-
     </section>
 
-    <a href="index.html" class="back-button">
-      ← 카드 목록
-    </a>
+    <a href="index.html" class="back-button">← 카드 목록</a>
 
     <header class="room-title">
       <p id="roomSub">RENAISSANCE ROOM 01</p>
       <h1 id="roomTitle">바로크</h1>
     </header>
 
-    <button
-      class="arrow left"
-      id="prevBtn"
-      aria-label="이전 방"
-    >
-      ‹
-    </button>
+    <button class="arrow left" id="prevBtn" aria-label="이전 방">‹</button>
+    <button class="arrow right" id="nextBtn" aria-label="다음 방">›</button>
 
-    <button
-      class="arrow right"
-      id="nextBtn"
-      aria-label="다음 방"
-    >
-      ›
-    </button>
+    <p class="hint">화살표로 방을 이동하고, 기둥을 클릭해 설명을 확인하세요.</p>
 
-    <!-- 안내 문구 -->
-    <p class="hint">
-      화살표로 방을 이동하고, 기둥을 클릭해 설명을 확인하세요.
-    </p>
-
-    <!-- 팝업 -->
     <section class="popup" id="popup">
-
       <div class="popup-box">
-
-        <button
-          class="close-btn"
-          id="closeBtn"
-          aria-label="닫기"
-        >
-          ×
-        </button>
-
-        <small id="popupSub">
-          BAROQUE
-        </small>
-
-        <h2 id="popupTitle">
-          바로크
-        </h2>
-
+        <button class="close-btn" id="closeBtn" aria-label="닫기">×</button>
+        <small id="popupSub">BAROQUE</small>
+        <h2 id="popupTitle">바로크</h2>
         <p id="popupText"></p>
-
       </div>
-
     </section>
-
   </main>
 
   <script>
-
     const rooms = [
       {
         name: "바로크",
@@ -542,7 +441,6 @@
         text:
           "바로크 디자인은 웅장함, 극적인 대비, 강한 장식성이 특징입니다. 권위와 감정을 시각적으로 압도하는 공간 구성이 자주 나타납니다."
       },
-
       {
         name: "로코코",
         sub: "ROCOCO",
@@ -552,7 +450,6 @@
         text:
           "로코코 디자인은 바로크보다 더 섬세하고 우아하며, 곡선과 밝은 색채, 장식적인 분위기를 강조합니다. 귀족적이고 사적인 공간의 아름다움이 두드러집니다."
       },
-
       {
         name: "시누아즈리",
         sub: "CHINOISERIE",
@@ -567,190 +464,90 @@
     let currentIndex = 0;
     let isMoving = false;
 
-    const scene =
-      document.getElementById("scene");
+    const scene = document.getElementById("scene");
+    const roomBg = document.getElementById("roomBg");
+    const columnImg = document.getElementById("columnImg");
+    const roomSub = document.getElementById("roomSub");
+    const roomTitle = document.getElementById("roomTitle");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const popup = document.getElementById("popup");
+    const popupSub = document.getElementById("popupSub");
+    const popupTitle = document.getElementById("popupTitle");
+    const popupText = document.getElementById("popupText");
+    const closeBtn = document.getElementById("closeBtn");
 
-    const roomBg =
-      document.getElementById("roomBg");
-
-    const columnImg =
-      document.getElementById("columnImg");
-
-    const roomSub =
-      document.getElementById("roomSub");
-
-    const roomTitle =
-      document.getElementById("roomTitle");
-
-    const prevBtn =
-      document.getElementById("prevBtn");
-
-    const nextBtn =
-      document.getElementById("nextBtn");
-
-    const popup =
-      document.getElementById("popup");
-
-    const popupSub =
-      document.getElementById("popupSub");
-
-    const popupTitle =
-      document.getElementById("popupTitle");
-
-    const popupText =
-      document.getElementById("popupText");
-
-    const closeBtn =
-      document.getElementById("closeBtn");
-
-    /* 방 렌더 */
     function updateContent() {
-
       const room = rooms[currentIndex];
 
       roomBg.src = room.bg;
       columnImg.src = room.column;
-
-      roomSub.textContent =
-        room.roomSub;
-
-      roomTitle.textContent =
-        room.name;
+      roomSub.textContent = room.roomSub;
+      roomTitle.textContent = room.name;
     }
 
-    /* 방 이동 */
     function moveRoom(direction) {
-
       if (isMoving) return;
 
       isMoving = true;
 
-      scene.classList.add(
-        direction > 0
-          ? "slide-left"
-          : "slide-right"
-      );
+      scene.classList.add(direction > 0 ? "slide-left" : "slide-right");
 
       setTimeout(() => {
-
-        currentIndex =
-          (currentIndex + direction + rooms.length)
-          % rooms.length;
-
+        currentIndex = (currentIndex + direction + rooms.length) % rooms.length;
         updateContent();
 
-        scene.style.transition =
-          "none";
-
-        scene.classList.remove(
-          "slide-left",
-          "slide-right"
-        );
-
-        scene.style.transform =
-          direction > 0
-            ? "translateX(5%)"
-            : "translateX(-5%)";
-
+        scene.style.transition = "none";
+        scene.classList.remove("slide-left", "slide-right");
+        scene.style.transform = direction > 0 ? "translateX(5%)" : "translateX(-5%)";
         scene.style.opacity = "0";
 
         requestAnimationFrame(() => {
-
           requestAnimationFrame(() => {
-
-            scene.style.transition =
-              "transform 0.45s ease, opacity 0.35s ease";
-
-            scene.style.transform =
-              "translateX(0)";
-
-            scene.style.opacity =
-              "1";
+            scene.style.transition = "transform 0.45s ease, opacity 0.35s ease";
+            scene.style.transform = "translateX(0)";
+            scene.style.opacity = "1";
           });
         });
 
         setTimeout(() => {
-
           isMoving = false;
-
           scene.style.transform = "";
           scene.style.opacity = "";
-
         }, 470);
-
       }, 260);
     }
 
-    prevBtn.addEventListener(
-      "click",
-      () => moveRoom(-1)
-    );
+    prevBtn.addEventListener("click", () => moveRoom(-1));
+    nextBtn.addEventListener("click", () => moveRoom(1));
 
-    nextBtn.addEventListener(
-      "click",
-      () => moveRoom(1)
-    );
+    columnImg.addEventListener("click", () => {
+      const room = rooms[currentIndex];
 
-    /* 팝업 */
-    columnImg.addEventListener(
-      "click",
-      () => {
+      popupSub.textContent = room.sub;
+      popupTitle.textContent = room.name;
+      popupText.textContent = room.text;
 
-        const room =
-          rooms[currentIndex];
+      popup.classList.add("show");
+    });
 
-        popupSub.textContent =
-          room.sub;
+    closeBtn.addEventListener("click", () => {
+      popup.classList.remove("show");
+    });
 
-        popupTitle.textContent =
-          room.name;
-
-        popupText.textContent =
-          room.text;
-
-        popup.classList.add("show");
-      }
-    );
-
-    closeBtn.addEventListener(
-      "click",
-      () => {
+    popup.addEventListener("click", (e) => {
+      if (e.target === popup) {
         popup.classList.remove("show");
       }
-    );
+    });
 
-    popup.addEventListener(
-      "click",
-      (e) => {
-
-        if (e.target === popup) {
-
-          popup.classList.remove("show");
-        }
-      }
-    );
-
-    document.addEventListener(
-      "keydown",
-      (e) => {
-
-        if (e.key === "ArrowLeft") {
-          moveRoom(-1);
-        }
-
-        if (e.key === "ArrowRight") {
-          moveRoom(1);
-        }
-
-        if (e.key === "Escape") {
-          popup.classList.remove("show");
-        }
-      }
-    );
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") moveRoom(-1);
+      if (e.key === "ArrowRight") moveRoom(1);
+      if (e.key === "Escape") popup.classList.remove("show");
+    });
 
     updateContent();
-
   </script>
-
 </body>
 </html>
