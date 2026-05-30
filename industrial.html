@@ -310,6 +310,54 @@ svg{
     color:#333;
   }
 }
+/* 모바일 가로: 16:9 고정 화면을 축소해서 보여주기 */
+@media (max-width:900px) and (orientation:landscape){
+  html,
+  body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#e9e9e9;
+  }
+
+  .ancient-page,
+  .medieval-page,
+  .room-page,
+  .industrial-page,
+  .war-page,
+  .modern-page{
+    width:1280px !important;
+    height:720px !important;
+    position:absolute !important;
+    left:50% !important;
+    top:50% !important;
+    transform:translate(-50%,-50%) scale(.54) !important;
+    transform-origin:center center !important;
+    overflow:hidden !important;
+  }
+}
+
+@media (min-width:800px) and (max-width:950px) and (orientation:landscape){
+  .ancient-page,
+  .medieval-page,
+  .room-page,
+  .industrial-page,
+  .war-page,
+  .modern-page{
+    transform:translate(-50%,-50%) scale(.58) !important;
+  }
+}
+
+@media (max-width:700px) and (orientation:landscape){
+  .ancient-page,
+  .medieval-page,
+  .room-page,
+  .industrial-page,
+  .war-page,
+  .modern-page{
+    transform:translate(-50%,-50%) scale(.48) !important;
+  }
+}
 </style>
 </head>
 
