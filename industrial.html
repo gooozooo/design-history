@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>산업화 디자인</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:"Malgun Gothic","Noto Sans KR",sans-serif;
+  background:#f7f7f4;
+}
+
+.industrial-page{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  background:#f7f7f4;
+}
+
+.back-button{
+  position:absolute;
+  top:24px;
+  left:28px;
+  z-index:80;
+  text-decoration:none;
+  color:rgba(0,0,0,.65);
+  font-size:15px;
+}
+
+.page-title{
+  position:absolute;
+  top:24px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:80;
+  text-align:center;
+  color:rgba(0,0,0,.76);
+  pointer-events:none;
+}
+
+.page-title p{
+  margin-bottom:6px;
+  font-size:12px;
+  letter-spacing:.2em;
+  color:rgba(0,0,0,.46);
+}
+
+.page-title h1{
+  font-size:38px;
+}
+
+.period{
+  margin-top:8px;
+  font-size:14px;
+  color:rgba(0,0,0,.52);
+}
+
+.produce-panel{
+  position:absolute;
+  left:8%;
+  top:56%;
+  transform:translateY(-50%);
+  z-index:90;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+}
+
+.produce-label{
+  font-size:12px;
+  letter-spacing:.22em;
+  color:rgba(0,0,0,.55);
+}
+
+.produce-button{
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  border:1.4px solid #111;
+  background:#f7f7f4;
+  color:#111;
+  font-size:18px;
+  font-weight:400;
+  letter-spacing:.08em;
+  cursor:pointer;
+  transition:
+    transform .18s ease,
+    background .18s ease,
+    color .18s ease;
+}
+
+.produce-button:hover{
+  background:#111;
+  color:#f7f7f4;
+}
+
+.produce-button:active,
+.produce-button.pressed{
+  transform:scale(.88);
+  background:#111;
+  color:#f7f7f4;
+}
+
+.fractal-stage{
+  position:absolute;
+  left:50%;
+  top:58%;
+  transform:translate(-50%,-50%);
+  width:min(58vw,576px);
+  height:min(58vw,576px);
+  z-index:10;
+  cursor:default;
+  transition:
+    width .8s ease,
+    height .8s ease,
+    top .8s ease;
+}
+
+.fractal-stage.full{
+  width:150vw;
+  height:150vw;
+  top:50%;
+}
+
+svg{
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+
+.triangle{
+  fill:none;
+  stroke:#111;
+  stroke-width:1.2;
+  opacity:0;
+  transform-origin:center;
+  animation:appear .38s ease forwards;
+}
+
+.triangle.scatter{
+  animation:scatterOut 1s ease forwards;
+}
+
+.keyword-center{
+  position:absolute;
+  left:50%;
+  top:62%;
+  transform:translate(-50%,-50%);
+  z-index:40;
+  text-align:center;
+  pointer-events:none;
+  transition:
+    opacity .25s ease,
+    transform .25s ease;
+}
+
+.keyword-center.change{
+  opacity:0;
+  transform:translate(-50%,-50%) scale(.82);
+}
+
+.keyword-title{
+  font-size:34px;
+  font-weight:300;
+  color:#111;
+  letter-spacing:.02em;
+  margin-bottom:8px;
+}
+
+.keyword-desc{
+  font-size:14px;
+  font-weight:300;
+  color:rgba(0,0,0,.55);
+  white-space:nowrap;
+  letter-spacing:.01em;
+}
+
+@keyframes appear{
+  from{
+    opacity:0;
+    transform:scale(.4);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+@keyframes scatterOut{
+  0%{
+    opacity:1;
+    transform:translate(0,0) scale(1) rotate(0deg);
+  }
+  100%{
+    opacity:0;
+    transform:
+      translate(var(--move-x), var(--move-y))
+      scale(.22)
+      rotate(var(--rot));
+  }
+}
+
+.hint{
+  position:absolute;
+  right:28px;
+  bottom:24px;
+  z-index:80;
+  color:rgba(0,0,0,.55);
+  font-size:14px;
+}
+
+@media (max-width:900px) and (orientation:landscape){
+  .back-button{
+    top:14px;
+    left:16px;
+    font-size:12px;
+  }
+
+  .page-title{
+    top:12px;
+  }
+
+  .page-title h1{
+    font-size:24px;
+  }
+
+  .page-title p{
+    font-size:10px;
+  }
+
+  .period{
+    font-size:11px;
+    margin-top:4px;
+  }
+
+  .produce-panel{
+    left:5%;
+    top:58%;
+    gap:8px;
+  }
+
+  .produce-label{
+    font-size:9px;
+  }
+
+  .produce-button{
+    width:76px;
+    height:76px;
+    font-size:11px;
+  }
+
+  .fractal-stage{
+    width:62vh;
+    height:62vh;
+    top:58%;
+  }
+
+  .fractal-stage.full{
+    width:155vw;
+    height:155vw;
+    top:50%;
+  }
+
+  .keyword-center{
+    top:62%;
+  }
+
+  .keyword-title{
+    font-size:22px;
+    font-weight:300;
+    margin-bottom:4px;
+  }
+
+  .keyword-desc{
+    font-size:9px;
+  }
+
+  .hint{
+    right:14px;
+    bottom:12px;
+    font-size:11px;
+  }
+}
+
+@media (max-width:900px) and (orientation:portrait){
+  .industrial-page::after{
+    content:"휴대폰을 가로로 돌려서 감상해 주세요.";
+    position:absolute;
+    inset:0;
+    z-index:999;
+    background:#e9e9e9;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:24px;
+    font-size:18px;
+    color:#333;
+  }
+}
+</style>
+</head>
+
+<body>
+<main class="industrial-page">
+
+  <a href="index.html" class="back-button">← 카드 목록</a>
+
+  <header class="page-title">
+    <p>INDUSTRIAL DESIGN</p>
+    <h1>산업화</h1>
+    <div class="period">18세기 후반 ~ 19세기</div>
+  </header>
+
+  <div class="produce-panel">
+    <div class="produce-label">FACTORY SWITCH</div>
+    <button class="produce-button" id="produceButton">PRODUCE</button>
+  </div>
+
+  <section class="fractal-stage" id="fractalStage">
+    <svg id="fractalSvg" viewBox="0 0 700 700"></svg>
+  </section>
+
+  <div class="keyword-center" id="keywordCenter">
+    <div class="keyword-title">기계화</div>
+    <div class="keyword-desc">대량생산, 제조</div>
+  </div>
+
+  <p class="hint">PRODUCE 버튼을 눌러 산업혁명의 생산 구조를 확장해 보세요.</p>
+
+</main>
+
+<script>
+const svg = document.getElementById("fractalSvg");
+const fractalStage = document.getElementById("fractalStage");
+const keywordCenter = document.getElementById("keywordCenter");
+const produceButton = document.getElementById("produceButton");
+
+let level = 0;
+let isAnimating = false;
+
+const maxLevel = 5;
+
+const keywords = [
+  {
+    title:"기계화",
+    desc:"대량생산, 제조"
+  },
+  {
+    title:"생활양식",
+    desc:"양모, 섬유"
+  },
+  {
+    title:"교통",
+    desc:"무역, 도시화, 교육"
+  },
+  {
+    title:"재료",
+    desc:"화학, 시멘트, 철, 유리, 제지"
+  }
+];
+
+const bigTriangle = {
+  x1:350,
+  y1:35,
+  x2:40,
+  y2:650,
+  x3:660,
+  y3:650
+};
+
+function midpoint(a,b){
+  return {
+    x:(a.x+b.x)/2,
+    y:(a.y+b.y)/2
+  };
+}
+
+function trianglePoints(t){
+  return `
+    ${t.x1},${t.y1}
+    ${t.x2},${t.y2}
+    ${t.x3},${t.y3}
+  `;
+}
+
+function triangleCenter(t){
+  return {
+    x:(t.x1+t.x2+t.x3)/3,
+    y:(t.y1+t.y2+t.y3)/3
+  };
+}
+
+function getTriangleSize(t){
+  const minX = Math.min(t.x1,t.x2,t.x3);
+  const maxX = Math.max(t.x1,t.x2,t.x3);
+  return maxX - minX;
+}
+
+function setScatterDirection(el, center){
+  const dx = center.x - 350;
+  const dy = center.y - 350;
+  const length = Math.sqrt(dx * dx + dy * dy) || 1;
+
+  const unitX = dx / length;
+  const unitY = dy / length;
+
+  const distance = 260 + Math.random() * 220;
+
+  el.style.setProperty("--move-x", `${unitX * distance}px`);
+  el.style.setProperty("--move-y", `${unitY * distance}px`);
+  el.style.setProperty("--rot", `${Math.random() * 180 - 90}deg`);
+}
+
+function createTriangle(t,delay){
+  const polygon =
+    document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "polygon"
+    );
+
+  const center = triangleCenter(t);
+  const size = getTriangleSize(t);
+
+  polygon.setAttribute("points",trianglePoints(t));
+  polygon.setAttribute("class","triangle");
+  polygon.style.animationDelay = delay + "ms";
+
+  polygon.dataset.cx = center.x;
+  polygon.dataset.cy = center.y;
+  polygon.dataset.size = size;
+
+  svg.appendChild(polygon);
+}
+
+function drawSierpinski(triangle,depth,delay){
+  if(depth === 0){
+    createTriangle(triangle,delay);
+    return;
+  }
+
+  const a = {x:triangle.x1,y:triangle.y1};
+  const b = {x:triangle.x2,y:triangle.y2};
+  const c = {x:triangle.x3,y:triangle.y3};
+
+  const ab = midpoint(a,b);
+  const ac = midpoint(a,c);
+  const bc = midpoint(b,c);
+
+  drawSierpinski(
+    {
+      x1:a.x,
+      y1:a.y,
+      x2:ab.x,
+      y2:ab.y,
+      x3:ac.x,
+      y3:ac.y
+    },
+    depth-1,
+    delay+18
+  );
+
+  drawSierpinski(
+    {
+      x1:ab.x,
+      y1:ab.y,
+      x2:b.x,
+      y2:b.y,
+      x3:bc.x,
+      y3:bc.y
+    },
+    depth-1,
+    delay+36
+  );
+
+  drawSierpinski(
+    {
+      x1:ac.x,
+      y1:ac.y,
+      x2:bc.x,
+      y2:bc.y,
+      x3:c.x,
+      y3:c.y
+    },
+    depth-1,
+    delay+54
+  );
+}
+
+function render(){
+  svg.innerHTML = "";
+  drawSierpinski(bigTriangle,level,0);
+}
+
+function randomKeyword(){
+  keywordCenter.classList.add("change");
+
+  setTimeout(()=>{
+    const random =
+      keywords[
+        Math.floor(Math.random() * keywords.length)
+      ];
+
+    keywordCenter.innerHTML = `
+      <div class="keyword-title">${random.title}</div>
+      <div class="keyword-desc">${random.desc}</div>
+    `;
+
+    keywordCenter.classList.remove("change");
+  },180);
+}
+
+function scatterLargeTriangles(){
+  const triangles = svg.querySelectorAll(".triangle");
+
+  triangles.forEach((el)=>{
+    const size = Number(el.dataset.size || 0);
+
+    if(size >= 155){
+      const center = {
+        x:Number(el.dataset.cx || 350),
+        y:Number(el.dataset.cy || 350)
+      };
+
+      setScatterDirection(el,center);
+      el.classList.add("scatter");
+    }
+  });
+}
+
+function finalExplosion(){
+  isAnimating = true;
+
+  fractalStage.classList.add("full");
+
+  setTimeout(()=>{
+    scatterLargeTriangles();
+  },900);
+
+  setTimeout(()=>{
+    fractalStage.classList.remove("full");
+
+    level = 0;
+
+    keywordCenter.innerHTML = `
+      <div class="keyword-title">기계화</div>
+      <div class="keyword-desc">대량생산, 제조</div>
+    `;
+
+    render();
+
+    isAnimating = false;
+  },2000);
+}
+
+function produce(){
+  if(isAnimating) return;
+
+  produceButton.classList.add("pressed");
+
+  setTimeout(()=>{
+    produceButton.classList.remove("pressed");
+  },180);
+
+  randomKeyword();
+
+  level++;
+
+  if(level > maxLevel){
+    finalExplosion();
+    return;
+  }
+
+  render();
+}
+
+produceButton.addEventListener("click",produce);
+
+render();
+</script>
+
+</body>
+</html>

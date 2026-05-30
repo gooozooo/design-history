@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>르네상스 디자인</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: "Malgun Gothic", "Noto Sans KR", sans-serif;
+      background: #000;
+    }
+
+    .room-page {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .scene {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      transition: transform 0.45s ease, opacity 0.35s ease;
+    }
+
+    .scene.slide-left {
+      transform: translateX(-5%);
+      opacity: 0;
+    }
+
+    .scene.slide-right {
+      transform: translateX(5%);
+      opacity: 0;
+    }
+
+    .room-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .dark-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(0,0,0,0.18),
+          rgba(0,0,0,0.34)
+        );
+      pointer-events: none;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 24px;
+      left: 28px;
+      z-index: 30;
+      color: rgba(255,255,255,0.92);
+      text-decoration: none;
+      font-size: 15px;
+      text-shadow:
+        0 2px 8px rgba(0,0,0,0.55);
+    }
+
+    .room-title {
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 30;
+      text-align: center;
+      color: white;
+      text-shadow:
+        0 3px 12px rgba(0,0,0,0.55);
+      pointer-events: none;
+    }
+
+    .room-title p {
+      margin: 0 0 6px;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      opacity: 0.85;
+    }
+
+    .room-title h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+
+    .column-stage {
+      position: absolute;
+      left: 50%;
+      bottom: 2vh;
+      transform: translateX(-50%);
+      z-index: 10;
+      width: min(30vw, 390px);
+      height: 86vh;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .column-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      cursor: pointer;
+      filter:
+        drop-shadow(0 20px 28px rgba(0,0,0,0.45));
+      transition:
+        transform 0.25s ease,
+        filter 0.25s ease;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .column-img:hover {
+      transform:
+        translateY(-6px)
+        scale(1.02);
+
+      filter:
+        drop-shadow(0 28px 36px rgba(0,0,0,0.55));
+    }
+
+    /* 화살표 */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 25;
+
+      width: 72px;
+      height: 72px;
+
+      border:
+        2px solid rgba(255,255,255,0.75);
+
+      border-radius: 50%;
+
+      background:
+        rgba(0,0,0,0.22);
+
+      color: white;
+      font-size: 44px;
+      line-height: 1;
+
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      backdrop-filter: blur(5px);
+
+      box-shadow:
+        0 0 0 rgba(255,255,255,0);
+
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .arrow:hover {
+      background:
+        rgba(255,255,255,0.16);
+
+      border-color:
+        rgba(255,255,255,0.95);
+
+      box-shadow:
+        0 0 18px rgba(255,255,255,0.52),
+        0 0 38px rgba(255,255,255,0.26);
+
+      transform:
+        translateY(-50%)
+        scale(1.08);
+    }
+
+    .arrow.left {
+      left: 32px;
+    }
+
+    .arrow.right {
+      right: 32px;
+    }
+
+    /* 안내 문구 */
+    .hint {
+      position: absolute;
+      right: 28px;
+      bottom: 24px;
+      z-index: 30;
+
+      color:
+        rgba(255,255,255,0.9);
+
+      font-size: 14px;
+
+      text-shadow:
+        0 2px 8px rgba(0,0,0,0.7);
+
+      letter-spacing: 0.02em;
+    }
+
+    /* 팝업 */
+    .popup {
+      position: absolute;
+      inset: 0;
+      z-index: 100;
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        rgba(0,0,0,0.35);
+    }
+
+    .popup.show {
+      display: flex;
+    }
+
+    .popup-box {
+      position: relative;
+
+      width:
+        min(520px, calc(100vw - 44px));
+
+      padding: 30px 28px;
+
+      border-radius: 22px;
+
+      background:
+        rgba(255,255,255,0.92);
+
+      color:
+        rgba(0,0,0,0.82);
+
+      box-shadow:
+        0 24px 70px rgba(0,0,0,0.35);
+
+      backdrop-filter:
+        blur(12px);
+    }
+
+    .popup-box small {
+      display: block;
+      margin-bottom: 8px;
+
+      letter-spacing: 0.14em;
+
+      color:
+        rgba(0,0,0,0.45);
+
+      font-weight: 700;
+    }
+
+    .popup-box h2 {
+      margin: 0 0 14px;
+      font-size: 32px;
+    }
+
+    .popup-box p {
+      margin: 0;
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+
+      border: 0;
+      background: transparent;
+
+      font-size: 30px;
+      cursor: pointer;
+
+      color:
+        rgba(0,0,0,0.7);
+    }
+
+    /* 모바일 가로 */
+    @media (max-width: 900px) and (orientation: landscape) {
+
+      .back-button {
+        top: 14px;
+        left: 16px;
+        font-size: 12px;
+      }
+
+      .room-title {
+        top: 12px;
+      }
+
+      .room-title h1 {
+        font-size: 24px;
+      }
+
+      .room-title p {
+        font-size: 10px;
+      }
+
+      .column-stage {
+        width: min(24vw, 210px);
+        height: 80vh;
+        bottom: 1vh;
+      }
+
+      .arrow {
+        width: 48px;
+        height: 48px;
+        font-size: 30px;
+      }
+
+      .arrow.left {
+        left: 14px;
+      }
+
+      .arrow.right {
+        right: 14px;
+      }
+
+      .popup-box {
+        width: min(460px, calc(100vw - 32px));
+        padding: 22px 20px;
+      }
+
+      .popup-box h2 {
+        font-size: 24px;
+      }
+
+      .popup-box p {
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      .hint {
+        font-size: 11px;
+        right: 14px;
+        bottom: 12px;
+      }
+    }
+
+    /* 모바일 세로 */
+    @media (max-width: 900px) and (orientation: portrait) {
+
+      .room-page::after {
+        content:
+          "휴대폰을 가로로 돌려서 감상해 주세요.";
+
+        position: absolute;
+        inset: 0;
+
+        z-index: 200;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 24px;
+
+        text-align: center;
+
+        background:
+          #e9e9e9;
+
+        color:
+          rgba(0,0,0,0.74);
+
+        font-size: 18px;
+        line-height: 1.7;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <main class="room-page">
+
+    <section class="scene" id="scene">
+
+      <img
+        class="room-bg"
+        id="roomBg"
+        src="3-2.png"
+        alt="방 배경 이미지"
+      />
+
+      <div class="dark-overlay"></div>
+
+      <section class="column-stage">
+        <img
+          class="column-img"
+          id="columnImg"
+          src="3-1.png"
+          alt="기둥 이미지"
+        />
+      </section>
+
+    </section>
+
+    <a href="index.html" class="back-button">
+      ← 카드 목록
+    </a>
+
+    <header class="room-title">
+      <p id="roomSub">RENAISSANCE ROOM 01</p>
+      <h1 id="roomTitle">바로크</h1>
+    </header>
+
+    <button
+      class="arrow left"
+      id="prevBtn"
+      aria-label="이전 방"
+    >
+      ‹
+    </button>
+
+    <button
+      class="arrow right"
+      id="nextBtn"
+      aria-label="다음 방"
+    >
+      ›
+    </button>
+
+    <!-- 안내 문구 -->
+    <p class="hint">
+      화살표로 방을 이동하고, 기둥을 클릭해 설명을 확인하세요.
+    </p>
+
+    <!-- 팝업 -->
+    <section class="popup" id="popup">
+
+      <div class="popup-box">
+
+        <button
+          class="close-btn"
+          id="closeBtn"
+          aria-label="닫기"
+        >
+          ×
+        </button>
+
+        <small id="popupSub">
+          BAROQUE
+        </small>
+
+        <h2 id="popupTitle">
+          바로크
+        </h2>
+
+        <p id="popupText"></p>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+
+    const rooms = [
+      {
+        name: "바로크",
+        sub: "BAROQUE",
+        roomSub: "RENAISSANCE ROOM 01",
+        column: "3-1.png",
+        bg: "3-2.png",
+        text:
+          "바로크 디자인은 웅장함, 극적인 대비, 강한 장식성이 특징입니다. 권위와 감정을 시각적으로 압도하는 공간 구성이 자주 나타납니다."
+      },
+
+      {
+        name: "로코코",
+        sub: "ROCOCO",
+        roomSub: "RENAISSANCE ROOM 02",
+        column: "3-3.png",
+        bg: "3-4.png",
+        text:
+          "로코코 디자인은 바로크보다 더 섬세하고 우아하며, 곡선과 밝은 색채, 장식적인 분위기를 강조합니다. 귀족적이고 사적인 공간의 아름다움이 두드러집니다."
+      },
+
+      {
+        name: "시누아즈리",
+        sub: "CHINOISERIE",
+        roomSub: "RENAISSANCE ROOM 03",
+        column: "3-5.png",
+        bg: "3-6.png",
+        text:
+          "시누아즈리는 유럽에서 상상한 동양풍 장식 양식입니다. 식물, 새, 비대칭 장식, 이국적인 패턴이 결합되어 환상적이고 장식적인 분위기를 만듭니다."
+      }
+    ];
+
+    let currentIndex = 0;
+    let isMoving = false;
+
+    const scene =
+      document.getElementById("scene");
+
+    const roomBg =
+      document.getElementById("roomBg");
+
+    const columnImg =
+      document.getElementById("columnImg");
+
+    const roomSub =
+      document.getElementById("roomSub");
+
+    const roomTitle =
+      document.getElementById("roomTitle");
+
+    const prevBtn =
+      document.getElementById("prevBtn");
+
+    const nextBtn =
+      document.getElementById("nextBtn");
+
+    const popup =
+      document.getElementById("popup");
+
+    const popupSub =
+      document.getElementById("popupSub");
+
+    const popupTitle =
+      document.getElementById("popupTitle");
+
+    const popupText =
+      document.getElementById("popupText");
+
+    const closeBtn =
+      document.getElementById("closeBtn");
+
+    /* 방 렌더 */
+    function updateContent() {
+
+      const room = rooms[currentIndex];
+
+      roomBg.src = room.bg;
+      columnImg.src = room.column;
+
+      roomSub.textContent =
+        room.roomSub;
+
+      roomTitle.textContent =
+        room.name;
+    }
+
+    /* 방 이동 */
+    function moveRoom(direction) {
+
+      if (isMoving) return;
+
+      isMoving = true;
+
+      scene.classList.add(
+        direction > 0
+          ? "slide-left"
+          : "slide-right"
+      );
+
+      setTimeout(() => {
+
+        currentIndex =
+          (currentIndex + direction + rooms.length)
+          % rooms.length;
+
+        updateContent();
+
+        scene.style.transition =
+          "none";
+
+        scene.classList.remove(
+          "slide-left",
+          "slide-right"
+        );
+
+        scene.style.transform =
+          direction > 0
+            ? "translateX(5%)"
+            : "translateX(-5%)";
+
+        scene.style.opacity = "0";
+
+        requestAnimationFrame(() => {
+
+          requestAnimationFrame(() => {
+
+            scene.style.transition =
+              "transform 0.45s ease, opacity 0.35s ease";
+
+            scene.style.transform =
+              "translateX(0)";
+
+            scene.style.opacity =
+              "1";
+          });
+        });
+
+        setTimeout(() => {
+
+          isMoving = false;
+
+          scene.style.transform = "";
+          scene.style.opacity = "";
+
+        }, 470);
+
+      }, 260);
+    }
+
+    prevBtn.addEventListener(
+      "click",
+      () => moveRoom(-1)
+    );
+
+    nextBtn.addEventListener(
+      "click",
+      () => moveRoom(1)
+    );
+
+    /* 팝업 */
+    columnImg.addEventListener(
+      "click",
+      () => {
+
+        const room =
+          rooms[currentIndex];
+
+        popupSub.textContent =
+          room.sub;
+
+        popupTitle.textContent =
+          room.name;
+
+        popupText.textContent =
+          room.text;
+
+        popup.classList.add("show");
+      }
+    );
+
+    closeBtn.addEventListener(
+      "click",
+      () => {
+        popup.classList.remove("show");
+      }
+    );
+
+    popup.addEventListener(
+      "click",
+      (e) => {
+
+        if (e.target === popup) {
+
+          popup.classList.remove("show");
+        }
+      }
+    );
+
+    document.addEventListener(
+      "keydown",
+      (e) => {
+
+        if (e.key === "ArrowLeft") {
+          moveRoom(-1);
+        }
+
+        if (e.key === "ArrowRight") {
+          moveRoom(1);
+        }
+
+        if (e.key === "Escape") {
+          popup.classList.remove("show");
+        }
+      }
+    );
+
+    updateContent();
+
+  </script>
+
+</body>
+</html>

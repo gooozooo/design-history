@@ -1,0 +1,341 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Malgun Gothic", "Noto Sans KR", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: #e9e9e9;
+  overflow-x: hidden;
+}
+
+.main-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px 24px 60px;
+}
+
+.main-header {
+  text-align: center;
+  color: #111;
+  margin-top: 10px;
+}
+
+.sub-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.main-header h1 {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.description {
+  margin-top: 14px;
+  font-size: 16px;
+  color: #444;
+}
+
+/* 카드 영역 */
+.card-arc-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.card-arc {
+  position: relative;
+  width: 1200px;
+  height: 600px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.profile-link{
+  position:fixed !important;
+
+  top:auto !important;
+  left:auto !important;
+
+  right:20px !important;
+  bottom:20px !important;
+
+  width:100px;
+  height:100px;
+
+  z-index:99999;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.profile-link img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  cursor:pointer;
+  border-radius:50%;
+  box-shadow:0 8px 20px rgba(0,0,0,0.18);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.profile-link:hover{
+  transform:translateY(-8px);
+}
+
+.profile-link:hover img{
+  box-shadow:0 18px 35px rgba(0,0,0,0.28);
+}
+/* 카드 공통 */
+.era-card {
+  position: absolute;
+  width: 220px;
+  height: 340px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: white;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+  transform-origin: bottom center;
+  transition: transform 0.28s ease, box-shadow 0.28s ease, filter 0.28s ease;
+}
+
+.era-card:hover {
+  transform: translateY(-18px) scale(1.04) !important;
+  box-shadow: 0 28px 50px rgba(0, 0, 0, 0.25);
+  filter: brightness(1.05);
+  z-index: 20 !important;
+}
+
+.card-number {
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 1;
+  opacity: 0.95;
+}
+
+.card-text h2 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.card-text p {
+  margin: 8px 0 0;
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+/* 카드별 색/위치 */
+.ancient {
+  background: #b78300;
+  left: 40px;
+  bottom: 70px;
+  transform: rotate(-28deg);
+  z-index: 1;
+}
+
+.medieval {
+  background: #a54434;
+  left: 220px;
+  bottom: 120px;
+  transform: rotate(-18deg);
+  z-index: 2;
+}
+
+.renaissance {
+  background: #bf4b38;
+  left: 400px;
+  bottom: 155px;
+  transform: rotate(-8deg);
+  z-index: 3;
+}
+
+.industrial {
+  background: #5347b8;
+  left: 580px;
+  bottom: 170px;
+  transform: rotate(0deg);
+  z-index: 4;
+}
+
+.war {
+  background: #5c8ea7;
+  left: 760px;
+  bottom: 155px;
+  transform: rotate(8deg);
+  z-index: 5;
+}
+
+.modern {
+  background: #6ea14a;
+  left: 940px;
+  bottom: 120px;
+  transform: rotate(18deg);
+  z-index: 6;
+}
+
+/* 세로모드 안내 */
+.rotate-notice {
+  display: none;
+  width: 100%;
+  text-align: center;
+  margin-top: 18px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* =========================
+   PC / 큰 화면
+========================= */
+@media (min-width: 1201px) {
+  .card-arc {
+    transform: none;
+    transform-origin: top center;
+  }
+}
+
+/* =========================
+   태블릿/작은 노트북
+========================= */
+@media (max-width: 1200px) {
+  .main-container {
+    padding: 40px 20px 50px;
+  }
+
+  .card-arc {
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+}
+
+/* =========================
+   모바일 공통
+   가로모드 사용 전제
+========================= */
+@media (max-width: 900px) {
+  .main-container {
+    padding: 24px 12px 24px;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .sub-title {
+    font-size: 11px;
+  }
+
+  .main-header h1 {
+    font-size: 28px;
+  }
+
+  .description {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .card-arc {
+    width: 1200px;
+    height: 600px;
+    margin: 0 auto;
+    transform-origin: top center;
+  }
+}
+
+/* =========================
+   모바일 가로모드
+========================= */
+@media (max-width: 900px) and (orientation: landscape) {
+  .rotate-notice {
+    display: none;
+  }
+
+  .card-arc {
+    transform: scale(0.68);
+  }
+}
+
+/* 조금 더 작은 가로 화면 */
+@media (max-width: 740px) and (orientation: landscape) {
+  .main-container {
+    padding: 18px 8px 18px;
+  }
+
+  .sub-title {
+    font-size: 10px;
+  }
+
+  .main-header h1 {
+    font-size: 22px;
+  }
+
+  .description {
+    font-size: 12px;
+  }
+
+  .card-arc {
+    transform: scale(0.56);
+  }
+}
+
+/* 아주 작은 가로 화면 */
+@media (max-width: 640px) and (orientation: landscape) {
+  .card-arc {
+    transform: scale(0.5);
+  }
+}
+
+/* =========================
+   모바일 세로모드
+   안내 문구 표시
+========================= */
+@media (max-width: 900px) and (orientation: portrait) {
+  .main-container {
+    min-height: 100vh;
+    justify-content: flex-start;
+  }
+
+  .main-header {
+    margin-top: 20px;
+  }
+
+  .main-header h1 {
+    font-size: 24px;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+
+  .rotate-notice {
+    display: block;
+  }
+
+  .card-arc {
+    transform: scale(0.36);
+    transform-origin: top center;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+}

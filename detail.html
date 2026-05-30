@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>시대 디자인 상세</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: "Malgun Gothic", "Noto Sans KR", sans-serif;
+      overflow: hidden;
+    }
+
+    body {
+      background: #e9e9e9;
+      color: #111;
+    }
+
+    .detail-page {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: #e9e9e9;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      z-index: 50;
+      text-decoration: none;
+      color: rgba(0, 0, 0, 0.72);
+      font-size: 15px;
+      transition: opacity 0.2s ease;
+    }
+
+    .back-button:hover {
+      opacity: 0.6;
+    }
+
+    .era-title {
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 40;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .era-sub {
+      margin: 0 0 6px;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      color: rgba(0, 0, 0, 0.42);
+    }
+
+    .era-main {
+      margin: 0;
+      font-size: 36px;
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.78);
+    }
+
+    .word-layer {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .floating-word {
+      position: absolute;
+      color: rgba(0, 0, 0, 0.13);
+      font-weight: 700;
+      white-space: nowrap;
+      user-select: none;
+      animation-name: drift;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes drift {
+      0%   { transform: translate3d(0, 0, 0); }
+      25%  { transform: translate3d(33px, -21px, 0); }
+      50%  { transform: translate3d(-24px, -42px, 0); }
+      75%  { transform: translate3d(18px, -24px, 0); }
+      100% { transform: translate3d(0, 0, 0); }
+    }
+
+    .visual-zone {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 60px;
+    }
+
+    .column-stack {
+      position: relative;
+      width: min(32vw, 565px);
+      height: min(82vh, 1083px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      cursor: pointer;
+      transition: transform 0.25s ease;
+    }
+
+    .column-stack:hover {
+      transform: translateY(-4px);
+    }
+
+    .column-image {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      max-width: 565px;
+      height: auto;
+      max-height: 67vh;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 20px 24px rgba(0, 0, 0, 0.12));
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+
+    .reflection-box {
+      position: relative;
+      width: 100%;
+      height: 26vh;
+      min-height: 140px;
+      margin-top: -16px;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .reflection-image {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%) scaleY(-1);
+      width: 100%;
+      max-width: 565px;
+      height: auto;
+      opacity: 0.28;
+      filter: blur(1.4px) grayscale(20%);
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.45) 18%,
+        rgba(0, 0, 0, 0.18) 48%,
+        rgba(0, 0, 0, 0.04) 72%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.45) 18%,
+        rgba(0, 0, 0, 0.18) 48%,
+        rgba(0, 0, 0, 0.04) 72%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      animation: reflectionWave 5.6s ease-in-out infinite;
+      transform-origin: center top;
+    }
+
+    .reflection-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.05) 0px,
+          rgba(255, 255, 255, 0.05) 2px,
+          rgba(0, 0, 0, 0.03) 6px,
+          rgba(0, 0, 0, 0.03) 10px
+        );
+      opacity: 0.42;
+      mix-blend-mode: overlay;
+      animation: waterLines 3.6s linear infinite;
+      pointer-events: none;
+    }
+
+    .reflection-box::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      background:
+        radial-gradient(
+          ellipse at center,
+          rgba(255, 255, 255, 0.10) 0%,
+          rgba(255, 255, 255, 0.03) 45%,
+          rgba(255, 255, 255, 0) 70%
+        );
+      opacity: 0.5;
+      animation: shimmerMove 4.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes reflectionWave {
+      0% {
+        transform: translateX(-50%) scaleY(-1) skewX(0deg) scaleX(1);
+      }
+      20% {
+        transform: translateX(calc(-50% + 7px)) scaleY(-1.03) skewX(1.4deg) scaleX(1.02);
+      }
+      40% {
+        transform: translateX(calc(-50% - 9px)) scaleY(-0.96) skewX(-1.8deg) scaleX(0.985);
+      }
+      60% {
+        transform: translateX(calc(-50% + 6px)) scaleY(-1.05) skewX(1.2deg) scaleX(1.015);
+      }
+      80% {
+        transform: translateX(calc(-50% - 5px)) scaleY(-0.98) skewX(-1deg) scaleX(0.992);
+      }
+      100% {
+        transform: translateX(-50%) scaleY(-1) skewX(0deg) scaleX(1);
+      }
+    }
+
+    @keyframes waterLines {
+      0% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(14px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    @keyframes shimmerMove {
+      0% {
+        transform: translateX(-14px) translateY(0px);
+        opacity: 0.32;
+      }
+      50% {
+        transform: translateX(16px) translateY(6px);
+        opacity: 0.58;
+      }
+      100% {
+        transform: translateX(-14px) translateY(0px);
+        opacity: 0.32;
+      }
+    }
+
+    .popup-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .popup-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .popup-box {
+      position: relative;
+      width: min(520px, calc(100vw - 40px));
+      min-height: 280px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 22px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+      padding: 28px 24px 24px;
+      backdrop-filter: blur(12px);
+      transform: translateY(12px) scale(0.98);
+      transition: transform 0.25s ease;
+    }
+
+    .popup-overlay.show .popup-box {
+      transform: translateY(0) scale(1);
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      border: none;
+      background: transparent;
+      font-size: 28px;
+      line-height: 1;
+      cursor: pointer;
+      color: rgba(0, 0, 0, 0.65);
+    }
+
+    .popup-close:hover {
+      opacity: 0.65;
+    }
+
+    .popup-era {
+      margin: 0 0 8px;
+      font-size: 14px;
+      letter-spacing: 0.14em;
+      color: rgba(0, 0, 0, 0.42);
+    }
+
+    .popup-title {
+      margin: 0 0 16px;
+      font-size: 34px;
+      line-height: 1.15;
+    }
+
+    .popup-description {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.8;
+      color: rgba(0, 0, 0, 0.78);
+      white-space: pre-line;
+    }
+
+    .rotate-notice {
+      display: none;
+    }
+
+    @media (max-width: 1200px) {
+      .column-stack {
+        width: min(38vw, 480px);
+      }
+
+      .column-image {
+        max-height: 60vh;
+      }
+
+      .reflection-box {
+        height: 22vh;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .back-button {
+        top: 14px;
+        left: 14px;
+        font-size: 13px;
+      }
+
+      .era-title {
+        top: 14px;
+      }
+
+      .era-sub {
+        font-size: 10px;
+      }
+
+      .era-main {
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 900px) and (orientation: landscape) {
+      .visual-zone {
+        padding-top: 36px;
+      }
+
+      .column-stack {
+        width: min(26vw, 260px);
+        height: 82vh;
+      }
+
+      .column-image {
+        max-height: 54vh;
+      }
+
+      .reflection-box {
+        margin-top: -10px;
+        height: 22vh;
+        min-height: 80px;
+      }
+
+      .popup-box {
+        width: min(470px, calc(100vw - 30px));
+        min-height: 220px;
+        padding: 22px 18px 18px;
+      }
+
+      .popup-title {
+        font-size: 26px;
+      }
+
+      .popup-description {
+        font-size: 14px;
+        line-height: 1.7;
+      }
+    }
+
+    @media (max-width: 900px) and (orientation: portrait) {
+      .word-layer,
+      .visual-zone,
+      .era-title,
+      .back-button {
+        opacity: 0.2;
+        pointer-events: none;
+      }
+
+      .rotate-notice {
+        display: flex;
+        position: absolute;
+        inset: 0;
+        z-index: 200;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 24px;
+        font-size: 18px;
+        line-height: 1.7;
+        color: rgba(0, 0, 0, 0.74);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="detail-page">
+    <a href="index.html" class="back-button">← 카드 목록으로 돌아가기</a>
+
+    <header class="era-title">
+      <p class="era-sub" id="eraSub">ANCIENT</p>
+      <h1 class="era-main" id="eraMain">고대</h1>
+    </header>
+
+    <section class="word-layer" id="wordLayer"></section>
+
+    <section class="visual-zone">
+      <div class="column-stack" id="columnTrigger">
+        <img class="column-image" id="columnImage" src="" alt="시대 기둥 이미지" />
+
+        <div class="reflection-box">
+          <img class="reflection-image" id="reflectionImage" src="" alt="" />
+        </div>
+      </div>
+    </section>
+
+    <div class="popup-overlay" id="popupOverlay">
+      <div class="popup-box" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+        <button class="popup-close" id="popupClose" aria-label="팝업 닫기">×</button>
+        <p class="popup-era" id="popupEra">ANCIENT</p>
+        <h2 class="popup-title" id="popupTitle">고대</h2>
+        <p class="popup-description" id="popupDescription"></p>
+      </div>
+    </div>
+
+    <div class="rotate-notice">
+      더 편하게 보려면 휴대폰을 가로로 돌려 주세요.
+    </div>
+  </main>
+
+  <script>
+    const eraData = {
+      ancient: {
+        sub: "ANCIENT",
+        title: "고대",
+        image: "1.png",
+        words: ["stone", "order", "column", "ritual", "myth", "symmetry", "temple", "authority", "geometry", "monument"],
+        description:
+`고대 디자인은 구조적 안정감과 상징성이 강한 시대입니다.
+기둥, 비례, 반복, 질서 같은 요소가 시각적으로 중요하게 작동합니다.
+이 시대의 조형은 단순한 장식이 아니라 권위와 신념을 드러내는 방식이었습니다.`
+      },
+      medieval: {
+        sub: "MEDIEVAL",
+        title: "중세",
+        image: "2.png",
+        words: ["faith", "ornament", "manuscript", "cathedral", "symbol", "gold", "craft", "icon", "guild", "pattern"],
+        description:
+`중세 디자인은 종교적 상징성과 장식성이 중심이 됩니다.
+형태는 사실적 재현보다 의미 전달과 숭고함의 표현에 집중합니다.
+수공예적 질감과 패턴, 상징적 이미지가 중요한 역할을 합니다.`
+      },
+      renaissance: {
+        sub: "RENAISSANCE",
+        title: "르네상스",
+        image: "3.png",
+        words: ["humanism", "balance", "proportion", "perspective", "reason", "classical", "order", "harmony", "form", "study"],
+        description:
+`르네상스 디자인은 인간 중심의 사고와 조화로운 비례를 중시합니다.
+원근법, 균형, 고전 재해석이 핵심적인 시각 질서로 나타납니다.
+정제된 구조와 아름다움이 함께 강조되는 시기입니다.`
+      },
+      industrial: {
+        sub: "INDUSTRIAL",
+        title: "산업화",
+        image: "4.png",
+        words: ["machine", "steel", "production", "function", "factory", "system", "repeat", "efficiency", "mass", "standard"],
+        description:
+`산업화 시대의 디자인은 기계 생산과 기능적 효율의 영향을 크게 받습니다.
+표준화와 반복 생산이 시각과 형태의 구조를 바꾸기 시작합니다.
+장식보다 제조와 사용성이 점점 더 중요해집니다.`
+      },
+      war: {
+        sub: "WAR DESIGN",
+        title: "전쟁디자인",
+        image: "5.png",
+        words: ["poster", "propaganda", "signal", "contrast", "nation", "message", "alert", "impact", "command", "mass"],
+        description:
+`전쟁디자인은 빠르고 강한 전달력을 위해 발전한 시각 언어입니다.
+선명한 대비, 단순한 메시지, 즉각적인 인상이 매우 중요합니다.
+감정과 행동을 유도하는 목적성이 강하게 드러납니다.`
+      },
+      modern: {
+        sub: "MODERN",
+        title: "모던",
+        image: "6.png",
+        words: ["grid", "minimal", "clarity", "bauhaus", "function", "space", "clean", "system", "type", "structure"],
+        description:
+`모던 디자인은 장식을 줄이고 구조와 기능을 명확하게 드러냅니다.
+여백, 정렬, 단순한 형태, 읽기 쉬운 타이포그래피가 중심입니다.
+현대 디자인의 기본 질서를 형성한 중요한 흐름입니다.`
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const era = params.get("era") || "ancient";
+    const current = eraData[era] || eraData.ancient;
+
+    const eraSub = document.getElementById("eraSub");
+    const eraMain = document.getElementById("eraMain");
+    const columnImage = document.getElementById("columnImage");
+    const reflectionImage = document.getElementById("reflectionImage");
+    const popupEra = document.getElementById("popupEra");
+    const popupTitle = document.getElementById("popupTitle");
+    const popupDescription = document.getElementById("popupDescription");
+    const wordLayer = document.getElementById("wordLayer");
+    const popupOverlay = document.getElementById("popupOverlay");
+    const popupClose = document.getElementById("popupClose");
+    const columnTrigger = document.getElementById("columnTrigger");
+
+    eraSub.textContent = current.sub;
+    eraMain.textContent = current.title;
+    popupEra.textContent = current.sub;
+    popupTitle.textContent = current.title;
+    popupDescription.textContent = current.description;
+    document.title = current.title + " | 시대 디자인 상세";
+
+    columnImage.src = current.image;
+    reflectionImage.src = current.image;
+
+     function createFloatingWords(words) {
+    wordLayer.innerHTML = "";
+
+    const shuffled = [...words].sort(() => Math.random() - 0.5);
+
+    const speedGroups = [
+      ...Array(3).fill("normal"),
+      ...Array(4).fill("fast"),
+      ...Array(3).fill("slow")
+    ].sort(() => Math.random() - 0.5);
+
+    shuffled.forEach((word, index) => {
+      const span = document.createElement("span");
+      span.className = "floating-word";
+      span.textContent = word;
+
+      const sizeType = Math.random();
+
+      let size;
+      if (sizeType < 0.25) {
+        size = Math.floor(Math.random() * 18) + 16;   // 16~33
+      } else if (sizeType < 0.6) {
+        size = Math.floor(Math.random() * 28) + 34;   // 34~61
+      } else if (sizeType < 0.85) {
+        size = Math.floor(Math.random() * 34) + 62;   // 62~95
+      } else {
+        size = Math.floor(Math.random() * 42) + 96;   // 96~137
+      }
+
+      const baseDuration = Math.random() * 6 + 8; // 8~14초
+      const speedType = speedGroups[index];
+
+      let duration;
+      if (speedType === "fast") {
+        duration = baseDuration / 2;   // 2배 빠름
+      } else if (speedType === "slow") {
+        duration = baseDuration * 2;   // 2배 느림
+      } else {
+        duration = baseDuration;       // 기본 속도
+      }
+
+      const top = Math.random() * 78 + 4;
+      const left = Math.random() * 84 + 2;
+
+      span.style.fontSize = size + "px";
+      span.style.top = top + "%";
+      span.style.left = left + "%";
+      span.style.animationDuration = duration + "s";
+      span.style.animationDelay = (-Math.random() * duration) + "s";
+
+      wordLayer.appendChild(span);
+    });
+  }
+
+    createFloatingWords(current.words);
+
+    columnTrigger.addEventListener("click", () => {
+      popupOverlay.classList.add("show");
+    });
+
+    popupClose.addEventListener("click", () => {
+      popupOverlay.classList.remove("show");
+    });
+
+    popupOverlay.addEventListener("click", (e) => {
+      if (e.target === popupOverlay) {
+        popupOverlay.classList.remove("show");
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        popupOverlay.classList.remove("show");
+      }
+    });
+  </script>
+</body>
+</html>
