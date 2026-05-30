@@ -49,7 +49,6 @@ body {
   color: #444;
 }
 
-/* 카드 영역 */
 .card-arc-wrap {
   display: flex;
   justify-content: center;
@@ -64,46 +63,7 @@ body {
   max-width: 1200px;
   margin: 0 auto;
 }
-.profile-link{
-  position:fixed !important;
 
-  top:auto !important;
-  left:auto !important;
-
-  right:20px !important;
-  bottom:20px !important;
-
-  width:100px;
-  height:100px;
-
-  z-index:99999;
-
-  transition:
-    transform .25s ease,
-    box-shadow .25s ease;
-}
-
-.profile-link img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  cursor:pointer;
-  border-radius:50%;
-  box-shadow:0 8px 20px rgba(0,0,0,0.18);
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.profile-link:hover{
-  transform:translateY(-8px);
-}
-
-.profile-link:hover img{
-  box-shadow:0 18px 35px rgba(0,0,0,0.28);
-}
-/* 카드 공통 */
 .era-card {
   position: absolute;
   width: 220px;
@@ -117,7 +77,10 @@ body {
   justify-content: space-between;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
   transform-origin: bottom center;
-  transition: transform 0.28s ease, box-shadow 0.28s ease, filter 0.28s ease;
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    filter 0.28s ease;
 }
 
 .era-card:hover {
@@ -147,7 +110,6 @@ body {
   opacity: 0.9;
 }
 
-/* 카드별 색/위치 */
 .ancient {
   background: #b78300;
   left: 40px;
@@ -196,7 +158,41 @@ body {
   z-index: 6;
 }
 
-/* 세로모드 안내 */
+.profile-link {
+  position: fixed !important;
+  top: auto !important;
+  left: auto !important;
+  right: 20px !important;
+  bottom: 20px !important;
+  width: 100px;
+  height: 100px;
+  z-index: 99999;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.profile-link img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.profile-link:hover {
+  transform: translateY(-8px);
+}
+
+.profile-link:hover img {
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.28);
+}
+
 .rotate-notice {
   display: none;
   width: 100%;
@@ -207,19 +203,6 @@ body {
   line-height: 1.6;
 }
 
-/* =========================
-   PC / 큰 화면
-========================= */
-@media (min-width: 1201px) {
-  .card-arc {
-    transform: none;
-    transform-origin: top center;
-  }
-}
-
-/* =========================
-   태블릿/작은 노트북
-========================= */
 @media (max-width: 1200px) {
   .main-container {
     padding: 40px 20px 50px;
@@ -231,59 +214,26 @@ body {
   }
 }
 
-/* =========================
-   모바일 공통
-   가로모드 사용 전제
-========================= */
-@media (max-width: 900px) {
+@media (max-width: 900px) and (orientation: landscape) {
+  body {
+    overflow: hidden;
+  }
+
   .main-container {
-    padding: 24px 12px 24px;
+    height: 100vh;
+    min-height: 100vh;
+    padding: 14px 12px 12px;
     justify-content: flex-start;
     gap: 8px;
   }
 
-  .sub-title {
-    font-size: 11px;
-  }
-
-  .main-header h1 {
-    font-size: 28px;
-  }
-
-  .description {
-    margin-top: 10px;
-    font-size: 14px;
-  }
-
-  .card-arc {
-    width: 1200px;
-    height: 600px;
-    margin: 0 auto;
-    transform-origin: top center;
-  }
-}
-
-/* =========================
-   모바일 가로모드
-========================= */
-@media (max-width: 900px) and (orientation: landscape) {
-  .rotate-notice {
-    display: none;
-  }
-
-  .card-arc {
-    transform: scale(0.68);
-  }
-}
-
-/* 조금 더 작은 가로 화면 */
-@media (max-width: 740px) and (orientation: landscape) {
-  .main-container {
-    padding: 18px 8px 18px;
+  .main-header {
+    margin-top: 0;
   }
 
   .sub-title {
     font-size: 10px;
+    margin-bottom: 4px;
   }
 
   .main-header h1 {
@@ -291,29 +241,67 @@ body {
   }
 
   .description {
+    margin-top: 6px;
     font-size: 12px;
   }
 
+  .card-arc-wrap {
+    flex: 1;
+    align-items: center;
+    overflow: hidden;
+  }
+
   .card-arc {
-    transform: scale(0.56);
+    width: 1200px;
+    height: 600px;
+    transform: scale(0.55);
+    transform-origin: center center;
+  }
+
+  .profile-link {
+    width: 64px;
+    height: 64px;
+    right: 14px !important;
+    bottom: 14px !important;
+  }
+
+  .rotate-notice {
+    display: none;
   }
 }
 
-/* 아주 작은 가로 화면 */
-@media (max-width: 640px) and (orientation: landscape) {
+@media (max-width: 740px) and (orientation: landscape) {
+  .main-container {
+    padding: 10px 8px;
+  }
+
+  .sub-title {
+    font-size: 9px;
+  }
+
+  .main-header h1 {
+    font-size: 19px;
+  }
+
+  .description {
+    font-size: 11px;
+  }
+
   .card-arc {
-    transform: scale(0.5);
+    transform: scale(0.47);
+  }
+
+  .profile-link {
+    width: 56px;
+    height: 56px;
   }
 }
 
-/* =========================
-   모바일 세로모드
-   안내 문구 표시
-========================= */
 @media (max-width: 900px) and (orientation: portrait) {
   .main-container {
     min-height: 100vh;
     justify-content: flex-start;
+    padding: 32px 18px;
   }
 
   .main-header {
@@ -337,5 +325,12 @@ body {
     transform-origin: top center;
     opacity: 0.55;
     pointer-events: none;
+  }
+
+  .profile-link {
+    width: 70px;
+    height: 70px;
+    right: 16px !important;
+    bottom: 16px !important;
   }
 }
