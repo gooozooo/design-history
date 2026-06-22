@@ -95,7 +95,6 @@ Design History는 디자인 역사를 읽는 것이 아닌 **직접 체험하는
 사용자는 실제 벙커를 모티브로 한 공간에서 당시의 기록을 탐색하며 전쟁 시대의 시각 언어를 체험합니다.
 
 ### 🎯 Experience
-<img width="1920" height="1020" alt="시대 디자인 카드 - Chrome 2026-06-22 오후 2_55_50" src="https://github.com/user-attachments/assets/62e9c725-a450-4c73-af39-a894effe0099" />
 <img width="1920" height="1020" alt="시대 디자인 카드 - Chrome 2026-06-22 오후 2_55_40" src="https://github.com/user-attachments/assets/648dc051-69cb-4b41-9977-45ff8baa028b" />
 <img width="1920" height="1020" alt="시대 디자인 카드 - Chrome 2026-06-22 오후 2_55_46" src="https://github.com/user-attachments/assets/0d10a36c-c998-4b0c-bd0a-3a819b9b6f34" />
 
